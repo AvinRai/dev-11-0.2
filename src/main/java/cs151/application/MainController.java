@@ -20,4 +20,7 @@ public class MainController {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void onHelloButtonClick(ActionEvent actionEvent) {
+    }
 }
