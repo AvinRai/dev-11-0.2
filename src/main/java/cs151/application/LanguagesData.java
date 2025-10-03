@@ -9,7 +9,7 @@ public class LanguagesData {
 
     private final ObservableList<String> languages = FXCollections.observableArrayList();
 
-    private LanguagesData() {} // private constructor (no external new)
+    private LanguagesData() {} 
 
     public ObservableList<String> getLanguages() {
         return languages;
