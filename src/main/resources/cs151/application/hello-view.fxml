@@ -16,7 +16,7 @@
     <Text>Welcome, please choose an action from the Menu.</Text>
     <VBox spacing="5.0">
         <Text>Main Menu:</Text>
-        <Button text="Define Programming Languages" minWidth="300"></Button>
+        <Button text="Define Programming Languages" minWidth="300" onAction="#onProgramDefine"></Button>
         <Button text="Define Student Profiles" minWidth="300"></Button>
         <Button text="Search Students" minWidth="300"></Button>
         <Button text="Reports" minWidth="300"></Button>

@@ -21,6 +21,4 @@ public class MainController {
         stage.show();
     }
 
-    public void onHelloButtonClick(ActionEvent actionEvent) {
-    }
 }
