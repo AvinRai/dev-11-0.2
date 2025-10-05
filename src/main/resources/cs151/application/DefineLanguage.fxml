@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.application.LanguagePageController"
       spacing="15.0" prefWidth="900.0" prefHeight="230.0" fx:id="root">
     <!-- // We will use VBox to add each of the nodes to the root (happens vertically) -->
     <!-- // Sets the spacing and padding as 15 -->
@@ -38,7 +39,7 @@
         // We created 2 buttons for saving and canceling
         // the programming language information.
         -->
-        <Button text="Cancel" fx:id="cancelInfo"/>
+        <Button text="Cancel" fx:id="cancelInfo" onAction="#GoBack"/>
         <Button text="Save information" fx:id="saveInfo"/>
         <!-- // Adds both save/cancel buttons to the HBox -->
     </HBox>

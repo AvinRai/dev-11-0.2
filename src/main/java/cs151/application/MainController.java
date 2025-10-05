@@ -11,14 +11,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainController {
+
+    /*
+    Button functionality to load Language define page
+    Also close the active stage
+     */
+
     @FXML
     protected void onProgramDefine(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main-page.fxml")); // Updated to Main-page.fxml to language define page file
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("DefineLanguage.fxml")); // Updated to Main-page.fxml to language define page file
+        Scene scene = new Scene(fxmlLoader.load(), 900, 230);
         Stage stage = new Stage();
         stage.setTitle("Programming Language Define");
         stage.setScene(scene);
         stage.show();
+
+        Stage activestage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        activestage.close();
     }
 
 }
