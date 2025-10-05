@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      spacing="15.0" prefWidth="900.0" prefHeight="230.0" fx:id="root">
+    <!-- // We will use VBox to add each of the nodes to the root (happens vertically) -->
+    <!-- // Sets the spacing and padding as 15 -->
+    <padding>
+        <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+    </padding>
+    <!-- // Creates a HBox called languageRow with spacing as 10 -->
+    <!-- // We also position it center-left -->
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="languageRow">
+        <!-- //Used to create a label called name that is next to the text area -->
+        <Label text="NAMES:" fx:id="name"/>
+        <!--
+        // Creates TextArea called languageEntry.
+        // It sets the displayed size of the text area and allows the
+        // text field to increase as more text is entered
+        -->
+        <TextArea fx:id="languageEntry"
+                  prefRowCount="7"
+                  maxWidth="Infinity" maxHeight="Infinity"
+                  HBox.hgrow="ALWAYS"/>
+        <!-- // Used to take up the remaining space in the Hbox row -->
+        <!-- // Adds the label and text area to languageRow -->
+    </HBox>
+    <!--
+    // Creates a HBox called buttonRow with spacing as 10 and padding as 15
+    // We also position it center-right
+    -->
+    <HBox spacing="10.0" alignment="CENTER_RIGHT" fx:id="buttonRow">
+        <padding>
+            <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+        </padding>
+        <!--
+        // We created 2 buttons for saving and canceling
+        // the programming language information.
+        -->
+        <Button text="Cancel" fx:id="cancelInfo"/>
+        <Button text="Save information" fx:id="saveInfo"/>
+        <!-- // Adds both save/cancel buttons to the HBox -->
+    </HBox>
+    <!--
+    // Add the languageRow and buttonRow to the Vbox root
+    // Ensures it gets added in the vertical order
+    -->
+</VBox>
