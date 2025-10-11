@@ -13,19 +13,18 @@
     <!-- // Creates a HBox called languageRow with spacing as 10 -->
     <!-- // We also position it center-left -->
     <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="languageRow">
-        <!-- //Used to create a label called name that is next to the text area -->
+        <!-- //Used to create a label called name that is next to the text field -->
         <Label text="NAMES:" fx:id="name"/>
         <!--
-        // Creates TextArea called languageEntry.
-        // It sets the displayed size of the text area and allows the
+        // Creates TextField called languageEntry.
+        // It sets the displayed size of the text field and allows the
         // text field to increase as more text is entered
         -->
-        <TextArea fx:id="languageEntry"
-                  prefRowCount="7"
+        <TextField fx:id="languageEntry"
                   maxWidth="Infinity" maxHeight="Infinity"
                   HBox.hgrow="ALWAYS"/>
         <!-- // Used to take up the remaining space in the Hbox row -->
-        <!-- // Adds the label and text area to languageRow -->
+        <!-- // Adds the label and text field to languageRow -->
     </HBox>
     <!--
     // Creates a HBox called buttonRow with spacing as 10 and padding as 15
