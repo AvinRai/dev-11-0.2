@@ -5,11 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LanguagePageController {
+    @FXML
+    private TextField languageEntry;
 
     /*
     Cancel button functionality for Language define page
@@ -27,5 +30,11 @@ public class LanguagePageController {
 
         Stage CurrentActiveStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         CurrentActiveStage.close();
+    }
+
+    @FXML
+    protected void save(ActionEvent event) throws IOException {
+        LanguagesData.getInstance().addLanguage(languageEntry.getText().trim());
+        languageEntry.clear();
     }
 }

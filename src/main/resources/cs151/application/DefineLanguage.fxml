@@ -39,7 +39,7 @@
         // the programming language information.
         -->
         <Button text="Cancel" fx:id="cancelInfo" onAction="#GoBack"/>
-        <Button text="Save information" fx:id="saveInfo"/>
+        <Button text="Save information" fx:id="saveInfo" onAction="#save"/>
         <!-- // Adds both save/cancel buttons to the HBox -->
     </HBox>
     <!--

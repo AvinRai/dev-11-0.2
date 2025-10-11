@@ -6,6 +6,7 @@
 .project
 .classpath
 target
+.DS_Store
 
 # Compiled class file
 *.class
