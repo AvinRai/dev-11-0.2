@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class LanguagesData {
     private static final LanguagesData INSTANCE = new LanguagesData();
@@ -25,16 +27,32 @@ public class LanguagesData {
             return;
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/languages.csv", true));){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/languages.csv", true))) {
             writer.write(lang);
             writer.newLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        languages.add(lang);
     }
 
     // Delete a language
     public void deleteLanguage(String lang) {
         languages.remove(lang);
+    }
+
+    // Load the saved programming languages from file
+    public void loadLanguagesFromFile() {
+        languages.clear();
+        try {
+            Files.lines(Paths.get("data/languages.csv"))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .sorted()
+                .forEach(languages::add);
+        } catch (IOException e) {
+            System.out.println("No saved data found yet.");
+        }
     }
 }
