@@ -30,4 +30,15 @@ public class MainController {
         activestage.close();
     }
 
+     // Open the Show Stored Programming Languages page
+
+    @FXML
+    protected void onShowLanguages(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ShowLanguages.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 300, 400);
+        Stage stage = new Stage();
+        stage.setTitle("Stored Programming Languages");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
