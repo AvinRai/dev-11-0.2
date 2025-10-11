@@ -1,1 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
 
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.application.ShowLanguagesController"
+      spacing="10" alignment="CENTER" prefWidth="300" prefHeight="400">
+
+    <TableView fx:id="languageTable" prefHeight="350" prefWidth="280">
+        <columns>
+            <TableColumn fx:id="languageColumn" text="Programming Language" prefWidth="250"/>
+        </columns>
+    </TableView>
+</VBox>
