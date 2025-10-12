@@ -1,5 +1,6 @@
 package cs151.application;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -20,7 +21,7 @@ public class ShowLanguagesController {
         LanguagesData.getInstance().loadLanguagesFromFile();
 
         ObservableList<String> data = LanguagesData.getInstance().getLanguages();
-
+        FXCollections.sort(data, String.CASE_INSENSITIVE_ORDER);
         // Creates table column
         languageColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue()));
