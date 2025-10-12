@@ -2,10 +2,10 @@
 # Version: 0.2
 
 # Who did what:
-1. Avin Rai: Designed home page
-2. Vignesh Ayyappan: Designed programming language Page
-3. Bashir Hurani: Data input setup
-4. Jaspreet Singh: Button functionality Controller
+1. Avin Rai: Permanently Store programming languages
+2. Vignesh Ayyappan: Fix programming language Page
+3. Bashir Hurani: Implement Show all stored programming Languages Page
+4. Jaspreet Singh: Code review, and Debugging 
    
 # Any other instruction that users need to know:
 
