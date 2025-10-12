@@ -1,5 +1,5 @@
 # Name of application: StudentData
-# Version: 0.2
+# Version: 0.3
 
 # Who did what:
 1. Avin Rai: Permanently Store programming languages
