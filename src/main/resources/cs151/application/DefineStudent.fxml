@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.application.StudentProfileController"
+      spacing="15.0" prefWidth="900.0" prefHeight="230.0" fx:id="root">
+    <!-- // We will use VBox to add each of the nodes to the root (happens vertically) -->
+    <!-- // Sets the spacing and padding as 15 -->
+    <padding>
+        <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+    </padding>
+    <!-- // Creates a HBox called languageRow with spacing as 10 -->
+    <!-- // We also position it center-left -->
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="nameRow">
+        <!-- //Used to create a label called name that is next to the text field -->
+        <Label text="FULL NAME:" fx:id="name"/>
+        <!--
+        // Creates TextField called studentName.
+        // It sets the displayed size of the text field and allows the
+        // text field to increase as more text is entered
+        -->
+        <TextField fx:id="studentName"
+                  maxWidth="Infinity" maxHeight="Infinity"
+                  HBox.hgrow="ALWAYS"/>
+
+        <!-- // Used to take up the remaining space in the Hbox row -->
+        <!-- // Adds the label and text field to studentName -->
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="academicRow">
+        <!-- //Used to create a label called name that is next to the text field -->
+        <Label text="ACADEMIC STATUS:" fx:id="academicStatus"/>
+        <ComboBox>
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Freshman"/>
+                    <String fx:value="Sophomore"/>
+                    <String fx:value="Junior"/>
+                    <String fx:value="Senior"/>
+                    <String fx:value="Graduate"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="employmentRow">
+        <!-- //Used to create a label called name that is next to the text field -->
+        <fx:define>
+            <ToggleGroup fx:id="employmentGroup"/>
+        </fx:define>
+
+        <Label text="EMPLOYMENT STATUS:" fx:id="employmentStatus"/>
+        <RadioButton text="Employed" toggleGroup="$employmentGroup"/>
+        <RadioButton text="Unemployed" toggleGroup="$employmentGroup"/>
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="jobRow">
+        <!-- //Used to create a label called name that is next to the text field -->
+        <Label text="JOB DETAILS:" fx:id="jobDetails"/>
+
+        <TextField fx:id="studentJob"
+                   maxWidth="Infinity" maxHeight="Infinity"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+
+    <!--
+    // Creates a HBox called buttonRow with spacing as 10 and padding as 15
+    // We also position it center-right
+    -->
+    <HBox spacing="10.0" alignment="CENTER_RIGHT" fx:id="buttonRow">
+        <padding>
+            <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+        </padding>
+        <!--
+        // We created 2 buttons for saving and canceling
+        // the student profile information.
+        -->
+        <Button text="Cancel" fx:id="cancelInfo" onAction="#GoBack"/>
+        <Button text="Save information" fx:id="saveInfo"/>
+        <!-- // Adds both save/cancel buttons to the HBox -->
+    </HBox>
+    <!--
+    // Add the studentName and buttonRow to the Vbox root
+    // Ensures it gets added in the vertical order
+    -->
+</VBox>
