@@ -34,7 +34,7 @@ public class MainController {
     @FXML
     protected void onStudentDefine(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("DefineStudent.fxml")); // Updated to Main-page.fxml to language define page file
-        Scene scene = new Scene(fxmlLoader.load(), 900, 230);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 700);
         Stage stage = new Stage();
         stage.setTitle("Student Profile Define");
         stage.setScene(scene);
