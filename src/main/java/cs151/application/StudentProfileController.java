@@ -32,6 +32,9 @@ public class StudentProfileController {
     private ListView<String> languagelist;
 
     @FXML
+    private  ListView<String> databaselist;
+
+    @FXML
     private CheckBox WhiteList;
 
     @FXML
@@ -45,6 +48,8 @@ public class StudentProfileController {
 
         languagelist.setItems(data);
         languagelist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        databaselist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         WhiteList.selectedProperty().addListener((obs, oldVal, newVal) ->{
             if(newVal) BlackList.setSelected(false);
