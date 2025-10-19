@@ -56,4 +56,15 @@ public class MainController {
         stage.setScene(scene);
         stage.show();
     }
+
+    // Open the Show Stored Student Profiles page
+    @FXML
+    protected void onShowStudents(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ShowStudents.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+        Stage stage = new Stage();
+        stage.setTitle("Stored Student Profiles");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
