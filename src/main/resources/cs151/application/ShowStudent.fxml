@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.application.ShowStudentsController"
+      spacing="10" alignment="CENTER" prefWidth="1000" prefHeight="600">
+
+    <TableView fx:id="studentTable" prefHeight="580" prefWidth="980">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="150"/>
+            <TableColumn fx:id="academicColumn" text="Academic Status" prefWidth="120"/>
+            <TableColumn fx:id="employmentColumn" text="Employment" prefWidth="100"/>
+            <TableColumn fx:id="jobColumn" text="Job Details" prefWidth="150"/>
+            <TableColumn fx:id="whitelistColumn" text="Whitelisted" prefWidth="80"/>
+            <TableColumn fx:id="blacklistColumn" text="Blacklisted" prefWidth="80"/>
+        </columns>
+    </TableView>
+</VBox>
