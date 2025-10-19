@@ -36,7 +36,8 @@
             <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="academicRow">
                 <!-- //Used to create a label called name that is next to the text field -->
                 <Label text="ACADEMIC STATUS:" fx:id="academicStatus"/>
-                <ComboBox>
+
+                <ComboBox fx:id="academicStatusCombo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Freshman"/>
@@ -47,6 +48,7 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
+
             </HBox>
 
             <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="employmentRow">
@@ -118,7 +120,8 @@
             -->
             <Label text="Preferred Professional Role:"/>
             <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="RoleRow">
-                <ComboBox>
+
+                <ComboBox fx:id="roleCombo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Front-End"/>
@@ -129,6 +132,7 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
+
             </HBox>
 
             <!--
@@ -166,7 +170,9 @@
                 // the student profile information.
                 -->
                 <Button text="Cancel" fx:id="cancelInfo" onAction="#GoBack"/>
-                <Button text="Save information" fx:id="saveInfo"/>
+
+                <Button text="Save information" fx:id="saveInfo" onAction="#saveProfile"/>
+
                 <!-- // Adds both save/cancel buttons to the HBox -->
             </HBox>
 
