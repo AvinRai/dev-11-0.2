@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.application.SearchStudentsController"
+            fitToWidth="true" fitToHeight="true"
+            prefWidth="900.0" prefHeight="520.0">
+
+    <content>
+        <VBox spacing="12.0">
+            <padding>
+                <Insets top="16.0" right="16.0" bottom="16.0" left="16.0"/>
+            </padding>
+
+            <Label text="Search Students" style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+
+            <GridPane hgap="12.0" vgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="22"/>
+                    <ColumnConstraints percentWidth="78"/>
+                </columnConstraints>
+
+                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Academic Status:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="academicStatusCombo" promptText="Any" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Freshman"/>
+                            <String fx:value="Sophomore"/>
+                            <String fx:value="Junior"/>
+                            <String fx:value="Senior"/>
+                            <String fx:value="Graduate"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <Label text="Programming Language(s):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <ListView fx:id="languageList" GridPane.rowIndex="2" GridPane.columnIndex="1" prefHeight="110.0">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Java"/>
+                            <String fx:value="Python"/>
+                            <String fx:value="C++"/>
+                            <String fx:value="C"/>
+                            <String fx:value="JavaScript"/>
+                            <String fx:value="TypeScript"/>
+                            <String fx:value="Go"/>
+                            <String fx:value="Rust"/>
+                        </FXCollections>
+                    </items>
+                </ListView>
+
+                <Label text="Database Skill(s):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <ListView fx:id="databaseList" GridPane.rowIndex="3" GridPane.columnIndex="1" prefHeight="110.0">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="MySQL"/>
+                            <String fx:value="PostgreSQL"/>
+                            <String fx:value="SQLite"/>
+                            <String fx:value="MongoDB"/>
+                            <String fx:value="Redis"/>
+                            <String fx:value="Cassandra"/>
+                        </FXCollections>
+                    </items>
+                </ListView>
+
+                <Label text="Professional Role:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="roleCombo" promptText="Any" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Front-End"/>
+                            <String fx:value="Back-End"/>
+                            <String fx:value="Full-Stack"/>
+                            <String fx:value="Data"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <HBox spacing="10.0" alignment="CENTER_LEFT" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                    <Pane HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="cancelButton" text="Cancel" cancelButton="true" onAction="#GoBack"/>
+                    <Button fx:id="searchButton" text="Search" defaultButton="true" onAction="#OnSearch"/>
+                </HBox>
+            </GridPane>
+        </VBox>
+    </content>
+</ScrollPane>

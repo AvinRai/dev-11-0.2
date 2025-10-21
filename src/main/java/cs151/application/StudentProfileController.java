@@ -68,7 +68,6 @@ public class StudentProfileController {
 
         languagelist.setItems(data);
         languagelist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         databaselist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         WhiteList.selectedProperty().addListener((obs, oldVal, newVal) ->{

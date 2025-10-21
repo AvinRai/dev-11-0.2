@@ -44,8 +44,22 @@ public class MainController {
         activestage.close();
     }
 
+    // Open the Search Studnets page
+    @FXML
+    protected void onSearchStudent(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("SearchStudent.fxml")); // Updated to Main-page.fxml to language define page file
+        Scene scene = new Scene(fxmlLoader.load(), 900, 700);
+        Stage stage = new Stage();
+        stage.setTitle("Search Students");
+        stage.setScene(scene);
+        stage.show();
 
-     // Open the Show Stored Programming Languages page
+        Stage activestage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        activestage.close();
+    }
+
+
+    // Open the Show Stored Programming Languages page
 
     @FXML
     protected void onShowLanguages(ActionEvent event) throws IOException {
