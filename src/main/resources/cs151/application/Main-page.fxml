@@ -22,6 +22,6 @@
         <Button text="Reports" minWidth="300"></Button>
         <Button text="Show Stored Programming Languages" onAction="#onShowLanguages" minWidth="300"/>
         <Button text="Show Stored Student Profiles" onAction="#onShowStudents" minWidth="300"/>
-        <Button text="Search Student Profiles" minWidth="300" onAction="#onSearchStudents"/>
+        <Button text="Search Student Profiles" onAction="#onSearchStudent" minWidth="300"/>
     </VBox>
 </VBox>
