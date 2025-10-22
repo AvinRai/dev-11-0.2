@@ -118,4 +118,7 @@ public final class StudentProfileRepository {
             return false;
         }
     }
+    public List<StudentProfile> getAllProfiles() {
+        return StudentProfileReader.loadProfiles();
+    }
 }
