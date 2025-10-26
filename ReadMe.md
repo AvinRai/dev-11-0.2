@@ -1,4 +1,19 @@
 # Name of application: StudentData
+# Version: 0.6
+
+# Who did what:
+1. Avin Rai: Setup search students profile page
+2. Vignesh Ayyappan: Permanently deleting student profiles
+3. Bashir Hurani: Searching functionality/display tableview
+4. Jaspreet Singh: ReadMe & submission (make sure there are 3 languages and 5 student profiles)
+   
+# Any other instruction that users need to know:
+
+Ensure JDK is setup by opening pom.xml (if needed)
+
+_____________________________________________
+# OLDER READ.me Below:
+# Name of application: StudentData
 # Version: 0.5
 
 # Who did what:
@@ -12,7 +27,6 @@
 Ensure JDK is setup by opening pom.xml (if needed)
 
 _____________________________________________
-# OLDER READ.me Below:
 # Name of application: StudentData
 # Version: 0.3
 
