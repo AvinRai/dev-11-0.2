@@ -1,1 +1,6 @@
-
+id,fullName,academicStatus,employmentStatus,jobDetails,whitelisted,blacklisted
+e26ec46e-75ca-4a99-a153-7cfc1132009e,Luke,Junior,Unemployed,,true,false
+e0049ab0-fb39-4a5e-ae7f-4d4a55be000c,Max,Senior,Unemployed,,false,true
+a8b253fc-b486-4a59-896f-47d21bd2745e,Alex,Junior,Employed,Works at Nvidia,true,false
+2838084b-92f7-4ae1-91ff-1ac89524b1c3,Bob,Sophomore,Unemployed,,false,true
+84f03ff0-58ec-4775-90c8-8a7283548920,Sarah,Graduate,Employed,Works at Google,true,false
