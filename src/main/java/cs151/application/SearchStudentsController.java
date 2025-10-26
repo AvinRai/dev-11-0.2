@@ -30,6 +30,8 @@ public class SearchStudentsController {
         // Allow selecting multiple items in both list views
         languageList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         databaseList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        resultsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 
         // Set how table columns display student data
         nameColumn.setCellValueFactory(cellData ->
@@ -78,4 +80,41 @@ public class SearchStudentsController {
 
         resultsTable.setItems(filtered);
     }
+
+    // used when delete is selected
+    @FXML
+    protected void OnDeleteSelected(ActionEvent event) {
+        // used to get which rows are currently being selected for deletion
+        ObservableList<StudentProfile> selectedVal = resultsTable.getSelectionModel().getSelectedItems();
+        // sends alert if nothing was selected to delete
+        if (selectedVal == null || selectedVal.isEmpty()) {
+            new Alert(Alert.AlertType.INFORMATION, "Must select AT LEAST one row to delete").showAndWait();
+            return;
+        }
+        // Sends alert to be used to verify whether to delete ids
+        Alert check = new Alert(Alert.AlertType.CONFIRMATION,
+                "Going to delete selected student profile(s)? This procedure is permanent.",
+                ButtonType.OK, ButtonType.CANCEL);
+        java.util.Optional<ButtonType> resultOfCheck = check.showAndWait();
+        if (resultOfCheck.isEmpty() || resultOfCheck.get() != ButtonType.OK) return;
+
+        //used to get the selected rows and only takes the ids of the rows
+        java.util.List<StudentProfile> toDelete = new java.util.ArrayList<>(selectedVal);
+        java.util.List<String> ids = toDelete.stream().map(StudentProfile::getId).toList();
+
+        try {
+            // calls to delete the ids from the files
+            StudentProfileRepository.getInstance().deleteProfilesByIds(ids);
+            // used to refresh, things that were deleted are not seen
+            OnSearch(null);
+            // Sends a message alert to show number of filed deleted
+            new Alert(Alert.AlertType.INFORMATION,
+                    "Have deleted " + toDelete.size() + " profile(s).").showAndWait();
+        } catch (RuntimeException ex) {
+            // shows alert message if failed to delete something
+            new Alert(Alert.AlertType.ERROR, "Have failed to delete: " + ex.getMessage()).showAndWait();
+        }
+
+    }
+
 }
