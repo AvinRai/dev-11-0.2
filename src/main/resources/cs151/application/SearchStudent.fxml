@@ -88,6 +88,21 @@
                     <Button fx:id="searchButton" text="Search" defaultButton="true" onAction="#OnSearch"/>
                 </HBox>
             </GridPane>
+
+            <!-- Results -->
+            <Label text="Results" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
+            <TableView fx:id="resultsTable" prefHeight="260.0" prefWidth="860.0">
+                <columns>
+                    <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="300"/>
+                    <TableColumn fx:id="statusColumn" text="Academic Status" prefWidth="200"/>
+                    <TableColumn fx:id="roleColumn" text="Preferred Role" prefWidth="200"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button text="Delete Selected" onAction="#OnDeleteSelected"/>
+            </HBox>
+
         </VBox>
     </content>
 </ScrollPane>
