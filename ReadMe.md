@@ -1,4 +1,19 @@
 # Name of application: StudentData
+# Version: 0.7
+
+# Who did what:
+1. Avin Rai: "User can edit any items of Students Profiles." and "User can edit any items of Students Profiles."
+2. Vignesh Ayyappan: "new page appears that contains all stored info of this student."
+3. Bashir Hurani: Cleanup, ReadMe, and Submission
+4. Jaspreet Singh: "User picks a profile and clicks on a button/link"
+   
+# Any other instruction that users need to know:
+
+Ensure JDK is setup by opening pom.xml (if needed)
+
+_____________________________________________
+# OLDER READ.me Below:
+# Name of application: StudentData
 # Version: 0.6
 
 # Who did what:
@@ -12,7 +27,6 @@
 Ensure JDK is setup by opening pom.xml (if needed)
 
 _____________________________________________
-# OLDER READ.me Below:
 # Name of application: StudentData
 # Version: 0.5
 
