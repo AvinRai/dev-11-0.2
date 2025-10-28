@@ -2,10 +2,10 @@
 # Version: 0.7
 
 # Who did what:
-1. Avin Rai: "User can edit any items of Students Profiles." and "User can edit any items of Students Profiles."
-2. Vignesh Ayyappan: "new page appears that contains all stored info of this student."
-3. Bashir Hurani: Cleanup, ReadMe, and Submission
-4. Jaspreet Singh: "User picks a profile and clicks on a button/link"
+1. Avin Rai: Makeing it so a User can edit any items of Students Profiles and User can edit any items of Students Profiles.
+2. Vignesh Ayyappan: Creating a new page appears that contains all stored info of this student.
+3. Bashir Hurani: Handling Cleanup, ReadMe, and Submission
+4. Jaspreet Singh: Working on User picks a profile and clicks on a button/link
    
 # Any other instruction that users need to know:
 
