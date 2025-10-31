@@ -117,4 +117,33 @@ public class SearchStudentsController {
 
     }
 
+    //When edit is selected
+    @FXML
+    protected void OnEditSelected(ActionEvent event) throws IOException {
+        ObservableList<StudentProfile> selectedVal = resultsTable.getSelectionModel().getSelectedItems();
+
+        // sends alert if nothing was selected to Edit
+        if (selectedVal == null || selectedVal.isEmpty()) {
+            new Alert(Alert.AlertType.INFORMATION, "Must select AT LEAST one row to edit").showAndWait();
+            return;
+        }
+        if (selectedVal.size() != 1  ){
+            new Alert(Alert.AlertType.INFORMATION, "Must select only one to edit. Multiple selection not allowed.").showAndWait();
+            return;
+        }
+
+        openEditPage(selectedVal.get(0));
+
+    }
+    // to open edit page
+    @FXML
+    private void openEditPage(StudentProfile studentProfile) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("EditStudent.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 900, 700);
+        Stage stage = new Stage();
+        stage.setTitle("Edit Student");
+        stage.setScene(scene);
+        stage.show();
+
+    }
 }
