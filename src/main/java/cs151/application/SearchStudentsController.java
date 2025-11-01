@@ -131,19 +131,26 @@ public class SearchStudentsController {
             new Alert(Alert.AlertType.INFORMATION, "Must select only one to edit. Multiple selection not allowed.").showAndWait();
             return;
         }
-
         openEditPage(selectedVal.get(0));
-
     }
+
     // to open edit page
     @FXML
-    private void openEditPage(StudentProfile studentProfile) throws IOException{
+    private void openEditPage(StudentProfile studentProfile) throws IOException {
+        if (studentProfile == null) return;
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("EditStudent.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 700);
-        Stage stage = new Stage();
-        stage.setTitle("Edit Student");
-        stage.setScene(scene);
-        stage.show();
 
+        EditStudentController ctrl = fxmlLoader.getController(); // <-- get controller
+
+        Stage stage = new Stage();
+        stage.setTitle("Student: " + (studentProfile.getFullName() != null ? studentProfile.getFullName() : studentProfile.getId()));
+        stage.setScene(scene);
+
+        ctrl.setStage(stage);
+        ctrl.setStudent(studentProfile);
+
+        stage.show();
     }
 }

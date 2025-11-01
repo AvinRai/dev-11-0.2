@@ -44,7 +44,7 @@ public class MainController {
         activestage.close();
     }
 
-    // Open the Search Studnets page
+    // Open the Search Students page
     @FXML
     protected void onSearchStudent(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("SearchStudent.fxml")); // Updated to Main-page.fxml to language define page file

@@ -1,21 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.text.Text?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="cs151.application.MainController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.application.EditStudentController"
+            prefWidth="900.0" prefHeight="560.0">
 
-    <Label fx:id="EditStudentProfile"/>
-    <Text>Edit Student Profile.</Text>
-    <VBox spacing="5.0">
-        <Text>Edit Student Profile :</Text>
+    <top>
+        <ToolBar>
+            <Label text="Edit Student" style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Close" onAction="#onClose"/>
+        </ToolBar>
+    </top>
 
-    </VBox>
-</VBox>
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" pannable="true">
+            <content>
+                <GridPane hgap="12.0" vgap="10.0">
+                    <padding>
+                        <Insets topRightBottomLeft="20"/>
+                    </padding>
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="22"/>
+                        <ColumnConstraints percentWidth="78"/>
+                    </columnConstraints>
+
+                    <!-- Name -->
+                    <Label text="Full Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <!-- Academic Status -->
+                    <Label text="Academic Status:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="academicStatusCombo" promptText="Any" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Freshman"/>
+                                <String fx:value="Sophomore"/>
+                                <String fx:value="Junior"/>
+                                <String fx:value="Senior"/>
+                                <String fx:value="Graduate"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+
+                    <!-- Programming Languages -->
+                    <Label text="Programming Language(s):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <ListView fx:id="languageList" GridPane.rowIndex="3" GridPane.columnIndex="1" prefHeight="110.0">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Java"/>
+                                <String fx:value="Python"/>
+                                <String fx:value="C++"/>
+                                <String fx:value="C"/>
+                                <String fx:value="JavaScript"/>
+                                <String fx:value="TypeScript"/>
+                                <String fx:value="Go"/>
+                                <String fx:value="Rust"/>
+                            </FXCollections>
+                        </items>
+                    </ListView>
+
+                    <!-- Databases -->
+                    <Label text="Database Skill(s):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <ListView fx:id="databaseList" GridPane.rowIndex="4" GridPane.columnIndex="1" prefHeight="110.0">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="MySQL"/>
+                                <String fx:value="PostgreSQL"/>
+                                <String fx:value="SQLite"/>
+                                <String fx:value="MongoDB"/>
+                                <String fx:value="Redis"/>
+                                <String fx:value="Cassandra"/>
+                            </FXCollections>
+                        </items>
+                    </ListView>
+
+                    <!-- Preferred Role -->
+                    <Label text="Professional Role:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="roleCombo" promptText="Any" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Front-End"/>
+                                <String fx:value="Back-End"/>
+                                <String fx:value="Full-Stack"/>
+                                <String fx:value="Data"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+
+                    <!-- Flags (optional, if you track them) -->
+                    <Label text="Whitelisted:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <CheckBox fx:id="whitelistedCheck" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                    <Label text="Blacklisted:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                    <CheckBox fx:id="blacklistedCheck" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                    <!-- Job details (optional) -->
+                    <Label text="Job Details:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <TextArea fx:id="jobDetailsArea" GridPane.rowIndex="8" GridPane.columnIndex="1" prefRowCount="3"/>
+
+                    <HBox spacing="10.0" alignment="CENTER_RIGHT" GridPane.rowIndex="9" GridPane.columnIndex="1">
+                        <Button text="Close" onAction="#onClose" cancelButton="true"/>
+                        <Button text="Save"/>
+                    </HBox>
+                </GridPane>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
