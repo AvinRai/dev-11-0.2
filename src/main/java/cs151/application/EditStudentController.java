@@ -18,6 +18,8 @@ public class EditStudentController {
     @FXML private TextArea jobDetailsArea;
     private Stage stage;
     private boolean updatingToggles = false;
+    // used for the original student profile
+    private StudentProfile original;
 
     @FXML
     private void initialize() {
@@ -47,6 +49,7 @@ public class EditStudentController {
     public void setStage(Stage s) { this.stage = s; }
 
     public void setStudent(StudentProfile sp) {
+        this.original = sp;
         if (sp == null) return;
         if (nameField != null) nameField.setText(nn(sp.getFullName()));
 
@@ -166,4 +169,84 @@ public class EditStudentController {
             .map(w -> w.substring(0,1).toUpperCase(Locale.ROOT) + (w.length() > 1 ? w.substring(1) : ""))
             .collect(Collectors.joining(" "));
     }
+
+    //helps nicely get the combo box value
+    private static String val(ComboBox<String> cbVal){
+        return cbVal==null||cbVal.getValue()==null? null : cbVal.getValue().trim().toLowerCase();
+    }
+
+    // used to get the academic status
+    private static StudentProfile.AcademicStatus parseAcademic(String val) {
+        if (val == null) return null;
+        switch (val) {
+            case "freshman":  return StudentProfile.AcademicStatus.Freshman;
+            case "sophomore": return StudentProfile.AcademicStatus.Sophomore;
+            case "junior":    return StudentProfile.AcademicStatus.Junior;
+            case "senior":    return StudentProfile.AcademicStatus.Senior;
+            case "graduate":  return StudentProfile.AcademicStatus.Graduate;
+            default:          return null;
+        }
+    }
+
+    // used to get the preferred role
+    private static StudentProfile.PreferredRole parseRole(String val) {
+        if (val == null) return null;
+        switch (val) {
+            case "front-end":  return StudentProfile.PreferredRole.Front_End;
+            case "back-end":   return StudentProfile.PreferredRole.Back_End;
+            case "full-stack": return StudentProfile.PreferredRole.Full_Stack;
+            case "data":       return StudentProfile.PreferredRole.Data;
+            case "other":      return StudentProfile.PreferredRole.Other;
+            default:           return null;
+        }
+    }
+
+    @FXML
+    private void onSave() {
+        // makes sure that the student actually exists
+        if (original == null) {
+            new Alert(Alert.AlertType.ERROR, "There is no student for editing.").showAndWait();
+            return;
+        }
+
+        // used to create a student profile with the updated values for the student
+        StudentProfile updatedProfile = new StudentProfile(
+                original.getId(),
+                nameField == null ? "" : nameField.getText().trim(),
+                parseAcademic(val(academicStatusCombo)),
+                original.getEmploymentStatus(),
+                jobDetailsArea == null ? "" : jobDetailsArea.getText().trim(),
+                new java.util.ArrayList<>(languageList == null ? java.util.List.<String>of()
+                        : languageList.getSelectionModel().getSelectedItems()),
+                new java.util.ArrayList<>(databaseList == null ? java.util.List.<String>of()
+                        : databaseList.getSelectionModel().getSelectedItems()),
+                parseRole(val(roleCombo)),
+                whitelistedCheck != null && whitelistedCheck.isSelected(),
+                blacklistedCheck != null && blacklistedCheck.isSelected()
+        );
+
+        // used to hold the error messages.
+        // helpful for returning all the error messages that occurred
+        // when updating the student profile after the edits
+        java.util.List<String> error = StudentProfileValidator.validate(updatedProfile);
+        if (!error.isEmpty()) {
+            Alert message = new Alert(Alert.AlertType.ERROR, String.join("\n", error));
+            message.setHeaderText("Cannot Save Edits");
+            message.setTitle("Validation Errors");
+            message.showAndWait();
+            return;
+        }
+
+        // will update the profile and send alert to say if it was successful
+        try {
+            StudentProfileRepository.getInstance().updateProfile(updatedProfile);
+            new Alert(Alert.AlertType.INFORMATION, "The changes are saved.").showAndWait();
+            onClose();
+        } catch (IllegalArgumentException nameClash) {
+            new Alert(Alert.AlertType.ERROR, nameClash.getMessage()).showAndWait();
+        } catch (RuntimeException e) {
+            new Alert(Alert.AlertType.ERROR, "Have failed to save changes: "+e.getMessage()).showAndWait();
+        }
+    }
+
 }
