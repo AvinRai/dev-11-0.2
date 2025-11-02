@@ -178,19 +178,169 @@ public final class StudentProfileRepository {
     private static boolean nameExists(String fullName) {
         if (fullName == null || fullName.isBlank() || Files.notExists(FILE_RECORDS)) return false;
         String target = fullName.trim().toLowerCase();
-        try {
-            // ignores spaces and is not case-sensitive
-            return Files.lines(FILE_RECORDS)
-                    .skip(1) // header
+        try (java.util.stream.Stream<String> lines = java.nio.file.Files.lines(FILE_RECORDS)) {
+            return lines
+                    .skip(1)
                     .map(line -> line.split(",", 3))
                     .filter(cols -> cols.length >= 2)
                     .map(cols -> cols[1].replace("\"","").trim().toLowerCase())
                     .anyMatch(target::equals);
-        } catch (IOException e) {
+        } catch (java.io.IOException e) {
             return false;
         }
     }
     public List<StudentProfile> getAllProfiles() {
         return StudentProfileReader.loadProfiles();
     }
+
+    // used to update the student profile after the edits
+    // It also checks if a name exists for students with different ids after edit
+    // (to ensure that we don't change the name to a person who already exists
+    // after making edits)
+    public synchronized void updateProfile(StudentProfile profile) {
+        ensureFiles();
+
+        // Prevents duplicate names by checking the ids
+        if (nameExistsForOtherId(profile.getFullName(), profile.getId())) {
+            throw new IllegalArgumentException("Another student already uses this full name.");
+        }
+
+        // used for making the new rows after the edits
+        String newRecordsRow = String.join(",",
+                q(profile.getId()),
+                q(profile.getFullName()),
+                q(enumStr(profile.getAcademicStatus())),
+                q(enumStr(profile.getEmploymentStatus())),
+                q(profile.getJobDetails()),
+                String.valueOf(profile.isWhitelisted()),
+                String.valueOf(profile.isBlacklisted()));
+
+        String newSkillsRow = String.join(",",
+                q(profile.getId()),
+                q(enumStr(profile.getPreferredRole())),
+                q(join(profile.getLanguages())),
+                q(join(profile.getDatabases())));
+
+        // replaces row where the id is the same
+        try {
+            rewriteFileReplacingId(FILE_RECORDS, studentRecords, profile.getId(), newRecordsRow);
+            rewriteFileReplacingId(FILE_SKILLS,  studentSkills,  profile.getId(), newSkillsRow);
+        } catch (java.io.IOException e) {
+            // check for what the error message is
+            throw new RuntimeException("failed updating student profile: " + e.getMessage(), e);
+        }
+    }
+
+    // used to find out if different student has the same name
+    private static boolean nameExistsForOtherId(String fullName, String currentId) {
+        if (fullName == null || fullName.isBlank() || java.nio.file.Files.notExists(FILE_RECORDS)) return false;
+        //used in checking the name
+        String checkName = fullName.trim().toLowerCase();
+
+        // the id we are editing
+        String editId = currentId == null ? "" : currentId.trim();
+
+        // we also have this to ensure that the file is closed if an error occurs
+        try (java.util.stream.Stream<String> lines = java.nio.file.Files.lines(FILE_RECORDS)) {
+            return lines
+                    .skip(1)
+                    .map(line -> line.split(",", 3))
+                    .filter(cols -> cols.length >= 2)
+                    .anyMatch(cols -> {
+                        String rowId = cols[0].replace("\"","").trim();
+                        String name  = cols[1].replace("\"","").trim().toLowerCase();
+                        return !rowId.equals(editId) && name.equals(checkName);
+                    });
+        } catch (java.io.IOException e) {
+            return false;
+        }
+    }
+
+    // use a temporary file for the edits to a student
+    // after the edits have been made, we can swap the old file with
+    // the temporary file
+    private static void rewriteFileReplacingId(java.nio.file.Path file, String header,
+                                               String id, String replacementRow) throws java.io.IOException {
+        // if the file is not there, we will return
+        if(java.nio.file.Files.notExists(file)) return;
+
+        // makes the temporary file
+        java.nio.file.Path temp = java.nio.file.Files.createTempFile(DIR, file.getFileName().toString(), ".tmp");
+        // checks if the row was replaced
+        boolean replace = false;
+
+        try (java.io.BufferedWriter w = java.nio.file.Files.newBufferedWriter(temp)) {
+            // writes the header
+            w.write(header);
+            w.newLine();
+
+            for (String eachLine : java.nio.file.Files.readAllLines(file)) {
+                if (eachLine == null || eachLine.isBlank()) continue;
+                if (eachLine.startsWith("id,")) continue;
+                String[] fieldVal = eachLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                String rowId = fieldVal.length > 0 ? fieldVal[0].replace("\"","").trim() : "";
+                // checks if this is the row we need to replace for the edits
+                if (rowId.equals(id)) {
+                    w.write(replacementRow);
+                    w.newLine();
+                    replace = true;
+                } else {
+                    // leaves the row the same
+                    w.write(eachLine);
+                    w.newLine();
+                }
+            }
+        }
+
+        // If the name doesn't exist in the file, we will add the new row to the file
+        if (!replace) {
+            try (java.io.BufferedWriter w = java.nio.file.Files.newBufferedWriter(
+                    temp, java.nio.file.StandardOpenOption.APPEND)) {
+                w.write(replacementRow);
+                w.newLine();
+            }
+        }
+
+        // used in replacing the old file with the temporary one
+        safeReplace(temp, file);
+    }
+
+    // this method is for replacing the old file with the temporary one
+    // Makes sure that atomic changes can work for the file change.
+    // In case of errors, the temporary file with be deleted
+    private static void safeReplace(java.nio.file.Path temp, java.nio.file.Path file) throws java.io.IOException {
+        // used in keeping the last error
+        java.io.IOException lastError = null;
+        // tries to replace the file (will do this 3 times for now)
+        // This was used in troubleshooting due to file change issue.
+        // The following is used to try both regular saving and atomic saving for the files
+        for (int attempt = 0; attempt < 3; attempt++) {
+            try {
+                try {
+                    java.nio.file.Files.move(
+                            temp, file,
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING,
+                            java.nio.file.StandardCopyOption.ATOMIC_MOVE
+                    );
+                } catch (java.nio.file.AtomicMoveNotSupportedException ex) {
+                    java.nio.file.Files.move(
+                            temp, file,
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                    );
+                }
+                // able to move the file
+                return;
+            } catch (java.io.IOException e) {
+                // keeps the error
+                lastError = e;
+                try { Thread.sleep(60); } catch (InterruptedException ignore){Thread.currentThread().interrupt();
+                }
+            }
+        }
+        // this was used to notify if the all the attempts did not work
+        try { java.nio.file.Files.deleteIfExists(temp); } catch (java.io.IOException ignore) {}
+        // shows the latest error
+        throw (lastError != null ? lastError : new java.io.IOException("Failed to replace " + file));
+    }
+
 }
