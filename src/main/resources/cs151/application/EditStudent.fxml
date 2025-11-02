@@ -107,7 +107,7 @@
 
                     <HBox spacing="10.0" alignment="CENTER_RIGHT" GridPane.rowIndex="9" GridPane.columnIndex="1">
                         <Button text="Close" onAction="#onClose" cancelButton="true"/>
-                        <Button text="Save"/>
+                        <Button text="Save" onAction="#onSave" defaultButton="true"/>
                     </HBox>
                 </GridPane>
             </content>
