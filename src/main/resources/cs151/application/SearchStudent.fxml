@@ -100,6 +100,7 @@
             </TableView>
 
             <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button text="View Comments" onAction="#OnViewComments"/>
                 <Button text="Delete Selected" onAction="#OnDeleteSelected"/>
                 <Button text="Edit Student profile" onAction="#OnEditSelected"/>
             </HBox>

@@ -32,7 +32,6 @@ public class SearchStudentsController {
         databaseList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         resultsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-
         // Set how table columns display student data
         nameColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getFullName()));
@@ -81,6 +80,18 @@ public class SearchStudentsController {
         resultsTable.setItems(filtered);
     }
 
+    @FXML
+    protected void OnViewComments(ActionEvent event) throws IOException {
+        ObservableList<StudentProfile> selectedVal = resultsTable.getSelectionModel().getSelectedItems();
+
+        // sends alert one row was not selected to view comments
+        if (selectedVal == null || selectedVal.size() != 1) {
+            new Alert(Alert.AlertType.INFORMATION, "Must select exactly one row to view comments").showAndWait();
+            return;
+        }
+        openCommentsPage(selectedVal.get(0));
+    }
+
     // used when delete is selected
     @FXML
     protected void OnDeleteSelected(ActionEvent event) {
@@ -122,16 +133,32 @@ public class SearchStudentsController {
     protected void OnEditSelected(ActionEvent event) throws IOException {
         ObservableList<StudentProfile> selectedVal = resultsTable.getSelectionModel().getSelectedItems();
 
-        // sends alert if nothing was selected to Edit
-        if (selectedVal == null || selectedVal.isEmpty()) {
-            new Alert(Alert.AlertType.INFORMATION, "Must select AT LEAST one row to edit").showAndWait();
-            return;
-        }
-        if (selectedVal.size() != 1  ){
-            new Alert(Alert.AlertType.INFORMATION, "Must select only one to edit. Multiple selection not allowed.").showAndWait();
+        // sends alert one row was not selected to Edit
+        if (selectedVal == null || selectedVal.size() != 1) {
+            new Alert(Alert.AlertType.INFORMATION, "Must select exactly one row to edit").showAndWait();
             return;
         }
         openEditPage(selectedVal.get(0));
+    }
+
+    // to open edit page
+    @FXML
+    private void openCommentsPage(StudentProfile studentProfile) throws IOException {
+        if (studentProfile == null) return;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ShowComments.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 900, 700);
+
+        ShowCommentsController ctrl = fxmlLoader.getController(); // <-- get controller
+
+        Stage stage = new Stage();
+        stage.setTitle("Student: " + (studentProfile.getFullName() != null ? studentProfile.getFullName() : studentProfile.getId()));
+        stage.setScene(scene);
+
+        ctrl.setStage(stage);
+        ctrl.setStudent(studentProfile);
+
+        stage.show();
     }
 
     // to open edit page
