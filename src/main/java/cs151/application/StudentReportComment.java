@@ -36,4 +36,34 @@ public final class StudentReportComment {
     public String dateWithComment() {
         return "[" + date.format(FORMAT_DATE) + "] " + commentText;
     }
+
+    
+    // Makes the comment safe to store in the CSV file.
+   
+    public String dateWithCommentEscaped() {
+        return dateWithComment().replace("\"", "\\\"");
+    }
+
+
+    // Changes the one saved comment line from the CSV file back to an object
+    public static StudentReportComment fromSavedString(String raw) {
+        if (raw == null || raw.isBlank()) return null;
+
+        try {
+            // extract date from the beginning
+            int end = raw.indexOf("]");
+            String dateStr = raw.substring(1, end).trim();
+
+            // remaining text is the comment
+            String comment = raw.substring(end + 1).trim();
+
+            LocalDate parsed = LocalDate.parse(dateStr, FORMAT_DATE);
+
+            return new StudentReportComment(parsed, comment);
+
+        } catch (Exception e) {
+            return new StudentReportComment(LocalDate.now(), raw);
+        }
+    }
+
 }
