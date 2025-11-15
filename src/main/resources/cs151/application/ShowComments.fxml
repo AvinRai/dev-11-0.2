@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="cs151.application.ShowCommentsController"
-      spacing="10" alignment="CENTER" prefWidth="300" prefHeight="400">
+      spacing="10" alignment="CENTER" prefWidth="600" prefHeight="400">
 
+    <Label text="Comments for Selected Student" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <TableView fx:id="commentTable" prefWidth="580" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
+            <TableColumn fx:id="textColumn" text="Comment" prefWidth="460"/>
+        </columns>
+    </TableView>
+
+    <Button text="Back" onAction="#onClose"/>
 </VBox>
