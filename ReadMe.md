@@ -1,3 +1,20 @@
+
+# Name of application: StudentData
+# Version: 0.8
+
+# Who did what:
+1. Vignesh Ayyappan: Create timestamp method and add comment functionality
+2. Avin Rai: Created Student_Observations.csv, created View Comments page, worked on add comment functionality, final submission
+3. Bashir Hurani: Worked on comment storage
+4. Jaspreet Singh: Initial submission and final checks
+   
+# Any other instruction that users need to know:
+
+Add comments can be seen by clicking "View Comments" on a student in Search Student Profies.
+
+Ensure JDK is setup by opening pom.xml (if needed)
+_____________________________________________
+# OLDER READ.me Below:
 # Name of application: StudentData
 # Version: 0.7
 
