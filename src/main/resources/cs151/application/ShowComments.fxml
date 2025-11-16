@@ -16,4 +16,5 @@
     </TableView>
 
     <Button text="Back" onAction="#onClose"/>
+    <Button text="Add New Comment" />
 </VBox>
