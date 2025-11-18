@@ -1,5 +1,21 @@
 
 # Name of application: StudentData
+# Version: 0.9
+
+# Who did what:
+1. Vignesh Ayyappan: Comments page when click on row of comments
+2. Avin Rai: Double clicks on row of students
+3. Bashir Hurani: Populate the csv files, ReadMe file, and submission 
+4. Jaspreet Singh: Show reports page
+   
+# Any other instruction that users need to know:
+
+Add comments can be seen by clicking "View Comments" on a student in Search Student Profies.
+
+Ensure JDK is setup by opening pom.xml (if needed)
+_____________________________________________
+# OLDER READ.me Below:
+# Name of application: StudentData
 # Version: 0.8
 
 # Who did what:
