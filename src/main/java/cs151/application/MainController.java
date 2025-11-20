@@ -81,4 +81,14 @@ public class MainController {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    protected void onStudentReport(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("StudentReport.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+        Stage stage = new Stage();
+        stage.setTitle("Student Report");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
