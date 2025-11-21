@@ -5,7 +5,7 @@ module cs151.application {
     requires com.dlsc.formsfx;
     requires javafx.base;
     requires javafx.graphics;
-
+    requires java.desktop;
 
 
     opens cs151.application to javafx.fxml;

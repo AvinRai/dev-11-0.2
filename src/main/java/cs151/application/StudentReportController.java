@@ -2,16 +2,22 @@ package cs151.application;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Comparator;
+
 public class StudentReportController {
 
     @FXML
@@ -35,40 +41,101 @@ public class StudentReportController {
     @FXML
     private TableColumn<StudentRow, Boolean> blacklistColumn;
 
-
     private static String clean(String s) {
         return s == null ? "" : s.replace("\"", "").trim();
     }
 
     private final ObservableList<StudentRow> masterList = FXCollections.observableArrayList();
     private final ObservableList<StudentRow> data = FXCollections.observableArrayList();
-    public void initialize() {
 
+    @FXML
+    public void initialize() {
         studentrow.setItems(data);
+
+        // Load all rows from Student_Records.csv into masterList
+        masterList.clear();
         try {
             Files.lines(Paths.get("data/Student_Records.csv"))
-                    .skip(1)
-                    .map(line -> line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1)) // Split CSV
+                    .skip(1) // header
+                    .map(line -> line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1))
                     .map(fields -> new StudentRow(
-                            clean(fields[1]),
-                            clean(fields[2]),
-                            clean(fields[3]),
-                            clean(fields[4]),
-                            parseBoolean(clean(fields[5])),
-                            parseBoolean(clean(fields[6]))
+                            clean(fields[0]), // id
+                            clean(fields[1]), // full name
+                            clean(fields[2]), // academic
+                            clean(fields[3]), // employment
+                            clean(fields[4]), // job details
+                            parseBoolean(clean(fields[5])), // whitelisted
+                            parseBoolean(clean(fields[6]))  // blacklisted
                     ))
-                    .sorted((a, b) -> a.fullName.get().compareToIgnoreCase(b.fullName.get()))
+                    .sorted(Comparator.comparing(row -> row.fullName.get().toLowerCase()))
                     .forEach(masterList::add);
         } catch (IOException e) {
             System.out.println("Failed to load student records: " + e.getMessage());
         }
 
+        data.setAll(masterList);
+
+        // Double-click on a row -> open new combined profile + comments view
+        studentrow.setOnMouseClicked(this::handleRowDoubleClick);
+
+        // Column bindings
         nameColumn.setCellValueFactory(cell -> cell.getValue().fullName);
         academicColumn.setCellValueFactory(cell -> cell.getValue().academicStatus);
         employmentColumn.setCellValueFactory(cell -> cell.getValue().employmentStatus);
         jobColumn.setCellValueFactory(cell -> cell.getValue().jobDetails);
         whitelistColumn.setCellValueFactory(cell -> cell.getValue().whitelisted);
         blacklistColumn.setCellValueFactory(cell -> cell.getValue().blacklisted);
+    }
+
+    private void handleRowDoubleClick(MouseEvent event) {
+        if (event.getButton() != MouseButton.PRIMARY || event.getClickCount() != 2) {
+            return;
+        }
+
+        StudentRow selected = studentrow.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+
+        StudentProfile profile = StudentProfileRepository.getInstance().getAllProfiles()
+                .stream()
+                .filter(p -> p.getId().equals(selected.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if (profile == null) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Could not find full profile for selected student.").showAndWait();
+            return;
+        }
+
+        try {
+            openStudentDetailsPage(profile);
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Failed to open student details: " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    private void openStudentDetailsPage(StudentProfile studentProfile) throws IOException {
+        if (studentProfile == null) return;
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("StudentReportDetails.fxml"));
+        Scene scene = new Scene(loader.load(), 900, 700);
+
+        StudentReportDetailsController ctrl = loader.getController();
+
+        Stage stage = new Stage();
+        stage.setTitle("Student: " +
+                (studentProfile.getFullName() != null
+                        ? studentProfile.getFullName()
+                        : studentProfile.getId()));
+        stage.setScene(scene);
+
+        ctrl.setStage(stage);
+        ctrl.setStudent(studentProfile);
+
+        stage.show();
     }
 
     @FXML
@@ -79,7 +146,6 @@ public class StudentReportController {
                         .filter(StudentRow::isBlacklisted)
                         .toList()
         );
-
     }
 
     @FXML
@@ -93,17 +159,23 @@ public class StudentReportController {
     }
 
     private boolean parseBoolean(String s) {
-
         return !s.equalsIgnoreCase("false");
     }
 
-
-    // This shows a row in the table
+    // Represents a row in the report table
     public static class StudentRow {
+        private final String id;
         SimpleStringProperty fullName, academicStatus, employmentStatus, jobDetails;
         SimpleBooleanProperty whitelisted, blacklisted;
 
-        public StudentRow(String fullName, String academicStatus, String employmentStatus, String jobDetails, boolean whitelisted, boolean blacklisted) {
+        public StudentRow(String id,
+                          String fullName,
+                          String academicStatus,
+                          String employmentStatus,
+                          String jobDetails,
+                          boolean whitelisted,
+                          boolean blacklisted) {
+            this.id = id;
             this.fullName = new SimpleStringProperty(fullName);
             this.academicStatus = new SimpleStringProperty(academicStatus);
             this.employmentStatus = new SimpleStringProperty(employmentStatus);
@@ -112,10 +184,15 @@ public class StudentReportController {
             this.blacklisted = new SimpleBooleanProperty(blacklisted);
         }
 
-        public boolean isBlacklisted(){
+        public String getId() {
+            return id;
+        }
+
+        public boolean isBlacklisted() {
             return blacklisted.get();
         }
-        public boolean isWhitelisted(){
+
+        public boolean isWhitelisted() {
             return whitelisted.get();
         }
     }
