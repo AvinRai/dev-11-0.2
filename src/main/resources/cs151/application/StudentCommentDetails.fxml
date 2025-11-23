@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.application.StudentCommentDetailsController"
+      spacing="10"
+      alignment="TOP_LEFT"
+      prefWidth="500" prefHeight="300">
+    <padding>
+        <Insets top="9" right="9" bottom="9" left="9"/>
+    </padding>
+    <Label text="Details of the Comment"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;"
+           maxWidth="Infinity"
+           alignment="CENTER"/>
+    <GridPane hgap="10" vgap="6">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="20"/>
+            <ColumnConstraints percentWidth="80"/>
+        </columnConstraints>
+        <children>
+            <Label text="Date:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="date" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        </children>
+    </GridPane>
+    <Label text="Comment:"/>
+    <TextArea fx:id="commentTextArea"
+              prefWidth="470" prefHeight="200"
+              wrapText="true"
+              editable="false"/>
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Close" onAction="#onClose"/>
+    </HBox>
+</VBox>
