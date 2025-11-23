@@ -20,10 +20,6 @@
             <ColumnConstraints percentWidth="20"/>
             <ColumnConstraints percentWidth="80"/>
         </columnConstraints>
-        <children>
-            <Label text="Date:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Label fx:id="date" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        </children>
     </GridPane>
     <Label text="Comment:"/>
     <TextArea fx:id="commentTextArea"

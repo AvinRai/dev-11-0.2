@@ -23,13 +23,6 @@ public class StudentCommentDetailsController {
     public void setComment(StudentReportComment comment) {
         if (comment == null) return;
 
-        // will format the date
-        if (comment.getDate() != null) {
-            date.setText(comment.getDate().format(FORMAT_DATE));
-        } else {
-            date.setText("");
-        }
-
         // gets the text of the comment
         // then adds the comment text to the text area
         String commentText = comment.getCommentText();

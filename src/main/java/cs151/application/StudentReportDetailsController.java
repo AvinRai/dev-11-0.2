@@ -32,7 +32,6 @@ public class StudentReportDetailsController {
 
     // Comments table
     @FXML private TableView<StudentReportComment> commentTable;
-    @FXML private TableColumn<StudentReportComment, String> dateColumn;
     @FXML private TableColumn<StudentReportComment, String> textColumn;
 
     private StudentProfile student;
@@ -40,13 +39,6 @@ public class StudentReportDetailsController {
 
     @FXML
     private void initialize() {
-        // Date in MM/dd
-        dateColumn.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getDate().format(DateTimeFormatter.ofPattern("MM/dd"))
-                )
-        );
-
         // Show only an excerpt of the comment in the table
         textColumn.setCellValueFactory(cellData -> {
             String full = cellData.getValue().getCommentText();

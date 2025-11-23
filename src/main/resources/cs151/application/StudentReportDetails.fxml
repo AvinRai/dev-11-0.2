@@ -63,7 +63,6 @@
 
     <TableView fx:id="commentTable" prefWidth="780" prefHeight="350">
         <columns>
-            <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
             <TableColumn fx:id="textColumn" text="Comment" prefWidth="680"/>
         </columns>
     </TableView>
