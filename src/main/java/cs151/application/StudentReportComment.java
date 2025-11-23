@@ -3,68 +3,87 @@ package cs151.application;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-//the class is used to create the comments for students.
-//the professor’s comments will be used to report each
-// student’s progress, including the date (with no time).
 public final class StudentReportComment {
 
-    // what the instructor wrote
     private final String commentText;
     private final String date;
-
-    // used to make the date in the MM/dd format
     private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("MM/dd");
 
-    // constructor used to initialize the values
     private StudentReportComment(LocalDate date, String text) {
-        int indexOfFirstBracket = text.indexOf('[');
-        int indexOfLastBracket = text.indexOf(']');
-        this.date = text.substring(indexOfFirstBracket + 1, indexOfLastBracket);
-        commentText = text;
+        String trimmed = (text == null) ? "" : text.trim();
+
+        if (trimmed.startsWith("[")) {
+            int indexOfFirstBracket = text.indexOf('[');
+            int indexOfLastBracket = text.indexOf(']');
+            this.date = text.substring(indexOfFirstBracket + 1, indexOfLastBracket);
+            this.commentText = trimmed;
+        } else {
+            this.date = date.format(FORMAT_DATE);
+            this.commentText = "[" + this.date + "] " + trimmed;
+        }
     }
 
-    // used to create new comment
-    public static StudentReportComment createComment(String originalText) {
-        String trimmedText = originalText == null ? "" : originalText.trim();
-        return new StudentReportComment(LocalDate.now(), trimmedText);
+    public static StudentReportComment createComment(String raw) {
+        if (raw == null) {
+            return new StudentReportComment(LocalDate.now(), "");
+        }
+
+        String trimmed = raw.trim();
+        if (trimmed.isEmpty()) {
+            return new StudentReportComment(LocalDate.now(), "");
+        }
+
+        if (trimmed.startsWith("[")) {
+            return fromSavedString(trimmed);
+        }
+
+        return new StudentReportComment(LocalDate.now(), trimmed);
     }
 
-    // have getters for the date and comment
-    public String getDate() { return date; }
-    public String getCommentText() { return commentText; }
+    // getters
+    public String getDate() {
+        return date;
+    }
 
-    //give the date and comment in a formatted manner
+    public String getCommentText() {
+        return commentText;
+    }
+
     public String dateWithComment() {
-        return date + commentText;
+        return commentText;
     }
 
-    
-    // Makes the comment safe to store in the CSV file.
-   
     public String dateWithCommentEscaped() {
-        return dateWithComment().replace("\"", "\\\"");
+        return dateWithComment().replace("\"", "");
     }
 
 
-    // Changes the one saved comment line from the CSV file back to an object
     public static StudentReportComment fromSavedString(String raw) {
         if (raw == null || raw.isBlank()) return null;
 
-        try {
-            // extract date from the beginning
-            int end = raw.indexOf("]");
-            String dateStr = raw.substring(1, end).trim();
+        String s = raw.trim();
 
-            // remaining text is the comment
-            String comment = raw.substring(end + 1).trim();
+        int firstBracket = s.indexOf('[');
+        if (firstBracket > 0) {
+            s = s.substring(firstBracket);
+        }
+
+        try {
+            int end = s.indexOf(']');
+            if (firstBracket == -1 || end <= 1) {
+                return new StudentReportComment(LocalDate.now(), s);
+            }
+
+            String dateStr = s.substring(1, end).trim();
+            String comment = s.substring(end + 1).trim();
 
             LocalDate parsed = LocalDate.parse(dateStr, FORMAT_DATE);
 
             return new StudentReportComment(parsed, comment);
 
         } catch (Exception e) {
-            return new StudentReportComment(LocalDate.now(), raw);
+            return new StudentReportComment(LocalDate.now(), s);
         }
     }
-
 }
+

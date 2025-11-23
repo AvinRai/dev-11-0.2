@@ -89,11 +89,11 @@ public class StudentCommentRepository {
             for (var entry : commentsById.entrySet()) {
                 String id = entry.getKey();
 
-                // Converts the list of comments into a single CSV-safe string
                 String comments = entry.getValue().stream()
                         .map(StudentReportComment::dateWithCommentEscaped)
-                        .map(s -> "\"" + s + "\"")
-                        .collect(Collectors.joining(", ", "{", "}"));
+                        .map(s -> "{"+ s + "}")    // wrap each comment in its own braces
+                        .collect(Collectors.joining(", ", "\"", "\""));
+
 
                 writer.write(id + ", " + comments + "\n");
             }
