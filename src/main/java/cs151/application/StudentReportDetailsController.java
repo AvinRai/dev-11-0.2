@@ -5,10 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.input.MouseButton;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.Scene;
+import java.io.IOException;
+
+
 
 // Shows student's profile (form-style) at the top and their comments (tabular) at the bottom.
 public class StudentReportDetailsController {
@@ -48,7 +54,59 @@ public class StudentReportDetailsController {
             String preview = full.length() > 60 ? full.substring(0, 60) + "..." : full;
             return new javafx.beans.property.SimpleStringProperty(preview);
         });
+        // when clicking the comment table
+        commentTable.setOnMouseClicked(this::onClickComment);
     }
+
+    // when the comment table is being clicked
+    private void onClickComment(MouseEvent event) {
+        if (event.getButton() != MouseButton.PRIMARY || event.getClickCount() != 1) {
+            return;
+        }
+
+        // gets the selected comment
+        StudentReportComment commentSelected = commentTable.getSelectionModel().getSelectedItem();
+        // ensures a comment is selected
+        if (commentSelected == null) {
+            return;
+        }
+
+        // sends a message if failed to open the comment
+        try {
+            openCommentPage(commentSelected);
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR,
+                    "failed to open comment: " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    // helps in creating the page for the full comment
+    private void openCommentPage(StudentReportComment commentVal) throws IOException {
+        // ensure that there is a comment
+        if (commentVal == null) return;
+
+        FXMLLoader loadVal = new FXMLLoader(Main.class.getResource("StudentCommentDetails.fxml"));
+        Scene scene = new Scene(loadVal.load(), 500, 300);
+
+        StudentCommentDetailsController commentController = loadVal.getController();
+
+        Stage commentDetailStage = new Stage();
+        String titleVal = "The Comment";
+        // used to add the name of the student in the comment
+        if (student != null && student.getFullName() != null && !student.getFullName().isBlank()) {
+            titleVal += " for " + student.getFullName();
+        }
+        // adding the title and comment to the page
+        commentDetailStage.setTitle(titleVal);
+        commentDetailStage.setScene(scene);
+
+        commentController.setStage(commentDetailStage);
+        commentController.setComment(commentVal);
+
+        // displaying the page
+        commentDetailStage.show();
+    }
+
 
     public void setStage(Stage s) {
         this.stage = s;
