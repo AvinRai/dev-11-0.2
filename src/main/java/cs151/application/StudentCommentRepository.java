@@ -43,19 +43,20 @@ public class StudentCommentRepository {
                 if (parts.length < 2) continue;
 
                 String id = parts[0].trim();
-                String raw = parts[1].trim().replaceAll("[{}]", "");
+                String commentsRaw = parts[1].trim();
 
                 // Splits the saved list of comments
-                String[] arr = raw.split("(?<!\\\\)\",\\s*\"");
-
-                List<StudentReportComment> list =
-                        Arrays.stream(arr)
-                                .map(s -> s.replaceAll("^\"|\"$", "").trim())
-                                .filter(s -> !s.isBlank())
-                                .map(StudentReportComment::fromSavedString)
-                                .filter(Objects::nonNull)
-                                .collect(Collectors.toList());
-
+                if (commentsRaw.startsWith("{") && commentsRaw.endsWith("}")) {
+                    commentsRaw = commentsRaw.substring(1, commentsRaw.length() - 1);
+        
+                }
+                String[] commentArray = commentsRaw.split("},\\s*\\{");
+                List<StudentReportComment> list = Arrays.stream(commentArray)
+                    .map(comment -> comment.replaceAll("^\\{?|\\}?$", "").trim())
+                    .map(StudentReportComment::fromSavedString)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+                
                 commentsById.put(id, list);
             }
 
