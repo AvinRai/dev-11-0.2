@@ -10,15 +10,16 @@ public final class StudentReportComment {
 
     // what the instructor wrote
     private final String commentText;
-    // the date it was written (no time component)
-    private final LocalDate date;
+    private final String date;
 
     // used to make the date in the MM/dd format
     private static final DateTimeFormatter FORMAT_DATE = DateTimeFormatter.ofPattern("MM/dd");
 
     // constructor used to initialize the values
     private StudentReportComment(LocalDate date, String text) {
-        this.date = date;
+        int indexOfFirstBracket = text.indexOf('[');
+        int indexOfLastBracket = text.indexOf(']');
+        this.date = text.substring(indexOfFirstBracket + 1, indexOfLastBracket);
         commentText = text;
     }
 
@@ -29,12 +30,12 @@ public final class StudentReportComment {
     }
 
     // have getters for the date and comment
-    public LocalDate getDate() { return date; }
+    public String getDate() { return date; }
     public String getCommentText() { return commentText; }
 
     //give the date and comment in a formatted manner
     public String dateWithComment() {
-        return "[" + date.format(FORMAT_DATE) + "] " + commentText;
+        return date + commentText;
     }
 
     

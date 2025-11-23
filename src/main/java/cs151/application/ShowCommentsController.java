@@ -25,7 +25,7 @@ public class ShowCommentsController {
         // Display the date column in MM/dd format
         dateColumn.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getDate().format(DateTimeFormatter.ofPattern("MM/dd"))
+                        cellData.getValue().getDate()
                 )
         );
 
