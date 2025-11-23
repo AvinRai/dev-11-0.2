@@ -31,7 +31,7 @@ public class StudentCommentDetailsController {
         }
 
         // gets the text of the comment
-        // then adds the comment text to the text ara
+        // then adds the comment text to the text area
         String commentText = comment.getCommentText();
         commentTextArea.setText(commentText == null ? "" : commentText);
     }
