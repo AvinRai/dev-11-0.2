@@ -1,3 +1,17 @@
+# Name of application: StudentData
+# Version: 0.9
+
+# Who did what:
+1. Vignesh Ayyappan: Data Model and UML Diagram for Class design pattern
+2. Avin Rai: introduction + sequence diagram 
+3. Bashir Hurani: ReadMe file + class diagram for polymorphism 
+4. Jaspreet Singh: uml class diagram for entire application
+   
+# Any other instruction that users need to know:
+
+Add comments can be seen by clicking "View Comments" on a student in Search Student Profies.
+
+Ensure JDK is setup by opening pom.xml (if needed)
 
 # Name of application: StudentData
 # Version: 0.9
